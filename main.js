@@ -1,5 +1,5 @@
 
-let btn = document.querySelectorAll('.song #play_btn');
+let btn = document.querySelectorAll('.song');
 let song = document.querySelectorAll('#music');
 
 /*popup music player part*/
