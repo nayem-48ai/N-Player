@@ -83,7 +83,157 @@ let All_song = [
      path: "mp3/14.mp3",
      img: "img/14.jpg",
      singer: "Hindi Song"
-   }
+   },
+   {
+      "name": "15. Unknown",
+      "path": "mp3/15.mp3",
+      "img": "img/15.jpg",
+      "singer": "Unknown"
+  },
+   {
+  "name": "16. Unknown",
+  "path": "mp3/16.mp3",
+  "img": "img/16.jpg",
+  "singer": "Unknown"
+},
+{
+  "name": "17. Unknown",
+  "path": "mp3/17.mp3",
+  "img": "img/17.jpg",
+  "singer": "Unknown"
+},
+{
+  "name": "18. Unknown",
+  "path": "mp3/18.mp3",
+  "img": "img/18.jpg",
+  "singer": "Unknown"
+},
+{
+  "name": "19. Unknown",
+  "path": "mp3/19.mp3",
+  "img": "img/19.jpg",
+  "singer": "Unknown"
+},
+{
+  "name": "20. Unknown",
+  "path": "mp3/20.mp3",
+  "img": "img/20.jpg",
+  "singer": "Unknown"
+},
+{
+  "name": "21. Unknown",
+  "path": "mp3/21.mp3",
+  "img": "img/21.jpg",
+  "singer": "Unknown"
+},
+{
+  "name": "22. Unknown",
+  "path": "mp3/22.mp3",
+  "img": "img/22.jpg",
+  "singer": "Unknown"
+},
+{
+  "name": "23. Unknown",
+  "path": "mp3/23.mp3",
+  "img": "img/23.jpg",
+  "singer": "Unknown"
+},
+{
+  "name": "24. Unknown",
+  "path": "mp3/24.mp3",
+  "img": "img/24.jpg",
+  "singer": "Unknown"
+},
+{
+  "name": "25. Unknown",
+  "path": "mp3/25.mp3",
+  "img": "img/25.jpg",
+  "singer": "Unknown"
+},
+{
+  "name": "26. Unknown",
+  "path": "mp3/26.mp3",
+  "img": "img/26.jpg",
+  "singer": "Unknown"
+},
+{
+  "name": "27. Unknown",
+  "path": "mp3/27.mp3",
+  "img": "img/27.jpg",
+  "singer": "Unknown"
+},
+{
+  "name": "28. Unknown",
+  "path": "mp3/28.mp3",
+  "img": "img/28.jpg",
+  "singer": "Unknown"
+},
+{
+  "name": "29. Unknown",
+  "path": "mp3/29.mp3",
+  "img": "img/29.jpg",
+  "singer": "Unknown"
+},
+{
+  "name": "30. Unknown",
+  "path": "mp3/30.mp3",
+  "img": "img/30.jpg",
+  "singer": "Unknown"
+},
+{
+  "name": "31. Unknown",
+  "path": "mp3/31.mp3",
+  "img": "img/31.jpg",
+  "singer": "Unknown"
+},
+{
+  "name": "32. Unknown",
+  "path": "mp3/32.mp3",
+  "img": "img/32.jpg",
+  "singer": "Unknown"
+},
+{
+  "name": "33. Unknown",
+  "path": "mp3/33.mp3",
+  "img": "img/33.jpg",
+  "singer": "Unknown"
+},
+{
+  "name": "34. Unknown",
+  "path": "mp3/34.mp3",
+  "img": "img/34.jpg",
+  "singer": "Unknown"
+},
+{
+  "name": "35. Unknown",
+  "path": "mp3/35.mp3",
+  "img": "img/35.jpg",
+  "singer": "Unknown"
+},
+{
+  "name": "36. Unknown",
+  "path": "mp3/36.mp3",
+  "img": "img/36.jpg",
+  "singer": "Unknown"
+},
+{
+  "name": "37. Unknown",
+  "path": "mp3/37.mp3",
+  "img": "img/37.jpg",
+  "singer": "Unknown"
+},
+{
+  "name": "38. Unknown",
+  "path": "mp3/38.mp3",
+  "img": "img/38.jpg",
+  "singer": "Unknown"
+},
+{
+  "name": "39. Unknown",
+  "path": "mp3/39.mp3",
+  "img": "img/39.jpg",
+  "singer": "Unknown"
+}
 ];
 /*you can add more song & images from you computer*/
 
