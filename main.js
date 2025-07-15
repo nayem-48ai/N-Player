@@ -1,196 +1,194 @@
+// DOM Elements
+const mainAudio = document.getElementById('main_audio');
+const tracksList = document.querySelector('.tracks');
 
-let btn = document.querySelectorAll('.song');
-let song = document.querySelectorAll('#music');
+// Player UI Elements
+const popupPlayer = document.querySelector('.popup_music_player');
+const smallPlayer = document.querySelector('.small_music_player');
+const downPlayerBtn = document.getElementById('down_player');
+const upPlayerBtn = document.getElementById('up_player');
 
-/*popup music player part*/
-let p_m_player = document.querySelector('.popup_music_player');
-let down_player = document.querySelector('#down_player');
-let current_track_name = document.querySelector('#current_track_name');
-let current_singer_name = document.querySelector('#current_singer_name');
-let song_img = document.querySelector('.song_img');
+// Song Info UI
+const largeAlbumArt = popupPlayer.querySelector('.song_img');
+const smallAlbumArt = smallPlayer.querySelector('.playing_img');
+const currentTrackName = document.getElementById('current_track_name');
+const currentSingerName = document.getElementById('current_singer_name');
+const smallSongName = document.getElementById('song_name');
+const smallArtistName = document.getElementById('artist_name');
 
-/*controlls part*/
-let play_pause_btn = document.querySelector('#play_pause_btn');
-let slider = document.querySelector('#slider');
-let forward_btn = document.querySelector('#forward_btn');
-let backward_btn = document.querySelector('#backward_btn');
+// Controls UI
+const playPauseBtn = document.getElementById('play_pause_btn');
+const forwardBtn = document.getElementById('forward_btn');
+const backwardBtn = document.getElementById('backward_btn');
+const slider = document.getElementById('slider');
+const currentDurationEl = document.getElementById('current_duration');
+const totalDurationEl = document.getElementById('total_duration');
+const waveAnimation = document.querySelector('.wave_animation');
 
-/*songs duration*/
-let current_duration = document.querySelector('.controlls .progress_part #current_duration');
-let total_duration = document.querySelector('.controlls .progress_part #total_duration');
+// State
+let currentIndex = 0;
+let isPlaying = false;
 
-/*small music player part*/
-let s_m_player = document.querySelector('.small_music_player');
-let playing_img = document.querySelector('.playing_img');
-let wave_animation = document.querySelector('.wave_animation');
-let up_player = document.querySelector('#up_player');
-let song_name = document.querySelector('#song_name');
-let artist_name = document.querySelector('#artist_name');
+// --- FUNCTIONS ---
 
-
-/*default values*/
-let is_song_played = false;
-let song_status = false;
-let index_no = 0;
-
-
-btn.forEach((btn,index) => {
-  btn.addEventListener('click', function(){
-
-    s_m_player.style.transform = 'translateY(0px)';
+// 1. Load a song
+function loadSong(index) {
+    const song = All_song[index];
     
-    if (index != index_no) {
-      song_status = false;
-    }
+    // Update audio source
+    mainAudio.src = song.path;
     
-    index_no = index;
-
-    song[index].currentTime = 0;
-
-  	if (song_status == false) {
-      play_song();
-  	}else{
-      pause_song();	 
-  	}
-
-  });
-});
-
-
-/*pause song*/
-function pause_song(){
-  song[index_no].pause();
-  song_status = false;
-  clearInterval(update_second);
-  wave_animation.style.opacity = '0';
-  play_pause_btn.innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
+    // Update UI
+    currentTrackName.textContent = song.name;
+    currentSingerName.textContent = song.singer;
+    smallSongName.textContent = song.name;
+    smallArtistName.textContent = song.singer;
+    largeAlbumArt.innerHTML = `<img src="${song.img}" alt="${song.name}">`;
+    smallAlbumArt.innerHTML = `<img src="${song.img}" alt="${song.name}">`;
+    
+    // Highlight the current song in the list
+    updateSongListHighlight();
+    
+    // Reset slider and duration
+    slider.value = 0;
+    currentDurationEl.textContent = "00:00";
+    totalDurationEl.textContent = "00:00";
 }
 
-
-/*This function will update every 1s*/
- function update_second(){
-
-	  let position = 0;
-
-    // update slider position
-		if(!isNaN(song[index_no].duration)){
-		   position = song[index_no].currentTime * (100 / song[index_no].duration);
-		   slider.value =  position;
-	      }
-
-    let durationMinutes = Math.floor(song[index_no].duration / 60);
-    let durationSeconds = Math.floor(song[index_no].duration - durationMinutes * 60);
-    total_duration.textContent = durationMinutes + ":" + durationSeconds;
-
-    // Calculate the time left and the total duration
-    let curr_minutes = Math.floor(song[index_no].currentTime / 60);
-    let curr_seconds = Math.floor(song[index_no].currentTime - curr_minutes * 60);
- 
-    // Add a zero to the single digit time values
-    if (curr_seconds < 10) { curr_seconds = "0" + curr_seconds; }
-    if (durationSeconds < 10) { durationSeconds = "0" + durationSeconds; }
- 
-    // Display the updated duration
-    current_duration.textContent = curr_minutes + ":" + curr_seconds;
-
-       
-// function will run when the song is over
-	if (song[index_no].ended) {
-      clearInterval(update_second);
-  	  wave_animation.style.opacity = '0';
-      play_pause_btn.innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
-    }
- }
- 
-
-/*show popup music player */
-up_player.addEventListener('click', function(){
-   p_m_player.style.transform = 'translateY(0%)';
-});
-
-
-/* Hide popup music player */
-down_player.addEventListener('click', function(){
-   p_m_player.style.transform = 'translateY(110%)';
-});
-
-
-/*play pause btn inside the popup Music player*/
-play_pause_btn.addEventListener('click', function(){
-    if (song_status == false) {
-  		song[index_no].play();
-      song_status = true;
-      wave_animation.style.opacity = '1';
-  		this.innerHTML = '<i class="fa fa-pause" aria-hidden="true"></i>';
-  	}else{
-  		song[index_no].pause();
-      song_status = false;
-      wave_animation.style.opacity = '0';
-      this.innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
-  	}
-});
-
-
-// change slider position 
-function change_duration(){
-	slider_position = song[index_no].duration * (slider.value / 100);
-	song[index_no].currentTime = slider_position;
+// 2. Play song
+function playSong() {
+    isPlaying = true;
+    mainAudio.play();
+    
+    // Update UI for playing state
+    playPauseBtn.innerHTML = '<i class="fa fa-pause" aria-hidden="true"></i>';
+    waveAnimation.classList.add('playing');
+    largeAlbumArt.classList.add('playing');
+    smallPlayer.style.transform = 'translateY(0)';
 }
 
+// 3. Pause song
+function pauseSong() {
+    isPlaying = false;
+    mainAudio.pause();
 
-/*forward btn (next)*/
-forward_btn.addEventListener('click', function(){
-   
-   index_no = index_no + 1;
-    if (index_no == All_song.length) {
-      index_no = 0;
-    }
-  
-    song[index_no].currentTime = 0;
-      play_song();
-});
-
-
-/*backward btn (previous)*/
-backward_btn.addEventListener('click', function(){
-    
-    if (index_no == 0) {
-      index_no = All_song.length-1;
-    }else{
-      index_no = index_no -1;
-    }
-
-    song[index_no].currentTime = 0;
-
-    play_song();
-});
-
-
-/*play function*/
-function play_song(){
-  song[index_no].play();
-  
-  if (is_song_played == true) {
-      document.querySelector(".active_song").pause();
-      document.querySelector(".active_song").classList.remove("active_song");
-  }else{
-        is_song_played = true;
-    }
-    
-  song[index_no].classList.add("active_song");
-
-  song_status = true;
-  setInterval(update_second, 1000);
-  wave_animation.style.opacity = '1';
-  p_m_player.style.transform = 'translateY(0%)';
-
-  song_img.innerHTML = `<img src="${All_song[index_no].img}" />`;
-  playing_img.innerHTML = `<img src="${All_song[index_no].img}" />`;
-
-  song_name.innerHTML = All_song[index_no].name;
-  artist_name.innerHTML = All_song[index_no].singer;
-
-  current_track_name.innerHTML = All_song[index_no].name;
-  current_singer_name.innerHTML = All_song[index_no].singer;
-  play_pause_btn.innerHTML = '<i class="fa fa-pause" aria-hidden="true"></i>';
+    // Update UI for paused state
+    playPauseBtn.innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
+    waveAnimation.classList.remove('playing');
+    largeAlbumArt.classList.remove('playing');
 }
+
+// 4. Toggle Play/Pause
+function togglePlayPause() {
+    if (isPlaying) {
+        pauseSong();
+    } else {
+        playSong();
+    }
+}
+
+// 5. Next Song
+function nextSong() {
+    currentIndex = (currentIndex + 1) % All_song.length;
+    loadSong(currentIndex);
+    playSong();
+}
+
+// 6. Previous Song
+function prevSong() {
+    currentIndex = (currentIndex - 1 + All_song.length) % All_song.length;
+    loadSong(currentIndex);
+    playSong();
+}
+
+// 7. Update Progress Bar & Time
+function updateProgress(e) {
+    const { duration, currentTime } = e.srcElement;
+    
+    if (duration) {
+        // Update slider
+        const progressPercent = (currentTime / duration) * 100;
+        slider.value = progressPercent;
+        
+        // Update time display
+        // Total duration
+        let totalMin = Math.floor(duration / 60);
+        let totalSec = Math.floor(duration % 60);
+        if(totalSec < 10) totalSec = `0${totalSec}`;
+        totalDurationEl.textContent = `${totalMin}:${totalSec}`;
+        
+        // Current time
+        let currentMin = Math.floor(currentTime / 60);
+        let currentSec = Math.floor(currentTime % 60);
+        if(currentSec < 10) currentSec = `0${currentSec}`;
+        currentDurationEl.textContent = `${currentMin}:${currentSec}`;
+    }
+}
+
+// 8. Set Progress Bar on click
+function setProgress(e) {
+    const width = this.clientWidth;
+    const clickX = e.offsetX;
+    const duration = mainAudio.duration;
+    
+    if(duration) {
+      mainAudio.currentTime = (clickX / width) * duration;
+    }
+}
+
+// 9. Highlight active song in the list
+function updateSongListHighlight() {
+    const allSongElements = document.querySelectorAll('.song');
+    allSongElements.forEach((songEl, index) => {
+        if (index === currentIndex) {
+            songEl.classList.add('playing');
+        } else {
+            songEl.classList.remove('playing');
+        }
+    });
+}
+
+// --- EVENT LISTENERS ---
+
+// Play/Pause button
+playPauseBtn.addEventListener('click', togglePlayPause);
+
+// Next/Prev buttons
+forwardBtn.addEventListener('click', nextSong);
+backwardBtn.addEventListener('click', prevSong);
+
+// Time/Song update
+mainAudio.addEventListener('timeupdate', updateProgress);
+mainAudio.addEventListener('ended', nextSong);
+
+// Slider
+slider.addEventListener('input', (e) => {
+    if(mainAudio.duration) {
+      mainAudio.currentTime = (e.target.value / 100) * mainAudio.duration;
+    }
+});
+
+
+// Player visibility
+upPlayerBtn.addEventListener('click', () => popupPlayer.style.transform = 'translateY(0)');
+downPlayerBtn.addEventListener('click', () => popupPlayer.style.transform = 'translateY(100%)');
+
+// Click on a song in the list to play
+tracksList.addEventListener('click', (e) => {
+    const songElement = e.target.closest('.song');
+    if (songElement) {
+        const clickedIndex = parseInt(songElement.dataset.index);
+        if (clickedIndex === currentIndex && isPlaying) {
+             pauseSong();
+        } else {
+             currentIndex = clickedIndex;
+             loadSong(currentIndex);
+             playSong();
+        }
+    }
+});
+
+// Initial Load (first song in the list)
+window.addEventListener('load', () => {
+    loadSong(currentIndex);
+});
