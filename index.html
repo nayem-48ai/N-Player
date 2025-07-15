@@ -16,20 +16,15 @@
   		<h5>N|Player×  <i class="fa fa-headphones" aria-hidden="true"></i></h5>
   	</div>
 
-    <!-- গানের তালিকা এখানে যুক্ত হবে -->
     <div class="tracks">
         <!-- গানের তালিকা song_list.js থেকে এখানে যুক্ত হবে -->
     </div>
 
-    <!-- Small Music Player (Initially Hidden) -->
+    <!-- Small Music Player -->
     <div class="small_music_player">
     	<div class="s_player_img">
-    		<div class="playing_img">
-    			<img src="img/1.jpg" alt="album art">
-    		</div>
-    	   <div class="wave_animation">
-			 <li></li><li></li><li></li><li></li><li></li>
-	       </div>
+    		<div class="playing_img"><img src="img/1.jpg" alt="album art"></div>
+    	   <div class="wave_animation"><li></li><li></li><li></li><li></li><li></li></div>
 	    </div>
     	<div class="song_detail">
     		<p id="song_name">গান নির্বাচন করুন</p>
@@ -38,18 +33,17 @@
     	<i class="fa fa-chevron-up" aria-hidden="true" id="up_player"></i>
     </div>
 
-
     <!-- Popup Music Player -->
     <div class="popup_music_player">
+        <!-- নতুন লোডার অ্যানিমেশন -->
+        <div class="loader"></div>
+
         <div class="top">
     	    <p>Now Playing…</p>
     	    <i class="fa fa-chevron-down" aria-hidden="true" id="down_player"></i>
         </div>
         
-       <div class="song_img">
-          <img src="img/1.jpg" alt="album art">
-       </div>
-
+       <div class="song_img"><img src="img/1.jpg" alt="album art"></div>
        <div class="song_description">
           <h3 id="current_track_name">গান নির্বাচন করুন</h3>
           <p id="current_singer_name">N | Player</p>
@@ -63,20 +57,17 @@
                 </div>
     		    <input type="range" min="0" max="100" value="0" id="slider">
     	    </div>
-    		
             <div class="controlls_btns">
-                <button id="backward_btn" title="Previous"><i class="fa fa-step-backward" aria-hidden="true"></i></button>
-                <button id="play_pause_btn" title="Play"><i class="fa fa-play" aria-hidden="true"></i></button>
-                <button id="forward_btn" title="Next"><i class="fa fa-step-forward" aria-hidden="true"></i></button>
+                <button id="backward_btn" title="Previous"><i class="fa fa-step-backward"></i></button>
+                <button id="play_pause_btn" title="Play"><i class="fa fa-play"></i></button>
+                <button id="forward_btn" title="Next"><i class="fa fa-step-forward"></i></button>
             </div>
       </div>
     </div>
 </div>
 
-<!-- একটি মাত্র অডিও ট্যাগ, যা সব গান চালাবে -->
 <audio id="main_audio"></audio>
 
-<!-- Scripts -->
 <script src="song_list.js"></script>
 <script src="main.js"></script>
 	
