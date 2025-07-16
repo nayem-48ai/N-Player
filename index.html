@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>N-Player</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome আইকন এর জন্য নতুন ভার্সন ব্যবহার করা হয়েছে -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
@@ -21,66 +22,86 @@
         </div>
     </div>
 
+    <!-- প্রধান অ্যাপ কন্টেইনার -->
     <div class="app-container">
-        <!-- প্লেয়ার ট্যাব -->
+        <!-- প্লেয়ার ট্যাব (আপনার পুরোনো পপ-আপ প্লেয়ারের উপর ভিত্তি করে) -->
         <div class="main-tab active" id="player-tab">
             <div class="player-section">
                 <div class="top-bar">
                     <button class="menu-btn" id="menu-btn"><i class="fas fa-bars"></i></button>
+                    <p>Now Playing</p>
                 </div>
-                <img src="img/default-cover.png" alt="Album Art" class="album-art" id="album-art">
-                <div class="song-info"><h3 id="song-title">গান নির্বাচন করুন</h3><p id="song-artist">শিল্পী</p></div>
-                <audio id="audio-player" preload="none"></audio>
-                <div class="progress-container" id="progress-container"><div class="progress-bar" id="progress-bar"></div><div class="time-display"><span id="current-time">0:00</span><span id="duration">0:00</span></div></div>
-                <div class="controls">
-                    <button id="repeat-btn" class="control-btn" title="Repeat All"><i class="fas fa-repeat"></i></button>
-                    <button id="prev-btn" class="control-btn"><i class="fas fa-backward"></i></button>
-                    <button id="play-btn" class="control-btn play-pause-btn"><i class="fas fa-play"></i></button>
-                    <button id="next-btn" class="control-btn"><i class="fas fa-forward"></i></button>
-                    <button id="shuffle-btn" class="control-btn" title="Shuffle Off"><i class="fas fa-shuffle"></i></button>
+                <div class="song_img">
+                    <img src="img/1.jpg" alt="album art">
+                </div>
+                <div class="song_description">
+                    <h3 id="current_track_name">গান নির্বাচন করুন</h3>
+                    <p id="current_singer_name">N | Player</p>
+                </div>
+                <div class="controlls">
+                    <div class="progress_part">
+                        <div class="durations">
+                            <p id="current_duration">00:00</p>
+                            <p id="total_duration">00:00</p>
+                        </div>
+                        <input type="range" min="0" max="100" value="0" id="slider">
+                    </div>
+                    <div class="controlls_btns">
+                        <button id="backward_btn" class="control-btn"><i class="fas fa-backward-step"></i></button>
+                        <button id="play_pause_btn" class="control-btn play-pause-btn"><i class="fas fa-play"></i></button>
+                        <button id="forward_btn" class="control-btn"><i class="fas fa-forward-step"></i></button>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- গানের তালিকা ট্যাব -->
         <div class="main-tab" id="lists-tab">
-            <div class="search-container"><i class="fas fa-search"></i><input type="text" id="search-input" placeholder="Search Songs, Artists..."></div>
-            <div class="list-view-wrapper">
-                <div class="list-view active" id="main-list-view">
-                    <div class="list-section" id="all-songs-section">
-                        <h3 class="list-header"><i class="fas fa-music"></i> All Songs</h3>
-                        <ul class="song-list" id="all-songs-list"></ul>
-                    </div>
-                    <div class="list-section" id="favorites-section">
-                        <h3 class="list-header"><i class="fas fa-heart"></i> Favorites</h3>
-                        <ul class="song-list" id="favorites-list"></ul>
-                    </div>
-                    <div class="list-section" id="playlists-section">
-                        <div class="playlist-header"><h3 class="list-header"><i class="fas fa-list-alt"></i> My Playlists</h3><button id="create-playlist-btn"><i class="fas fa-plus"></i> Create</button></div>
-                        <ul class="song-list" id="my-playlists-container"></ul>
-                    </div>
-                </div>
-                <div class="list-view" id="playlist-detail-view">
-                    <div class="detail-view-header"><button id="back-to-main-list-btn"><i class="fas fa-arrow-left"></i></button><h3 id="playlist-detail-title">Playlist</h3></div>
-                    <ul class="song-list" id="playlist-detail-list"></ul>
-                </div>
+            <div class="search-container"><i class="fas fa-search"></i><input type="text" id="search-input" placeholder="Search Songs or Artists..."></div>
+            <div class="list-tabs">
+                <button class="list-tab-btn active" data-tab="all-songs">All Songs</button>
+                <button class="list-tab-btn" data-tab="favorites">Favorites</button>
+            </div>
+            <div class="tracks-container">
+                <div class="track-list active" id="all-songs-list"></div>
+                <div class="track-list" id="favorites-list"></div>
             </div>
         </div>
     </div>
     
+    <!-- নিচের নেভিগেশন বার -->
     <nav class="bottom-nav">
         <button class="nav-btn active" data-tab="player-tab"><i class="fas fa-play-circle"></i> Player</button>
         <button class="nav-btn" data-tab="lists-tab"><i class="fas fa-list-ul"></i> Lists</button>
     </nav>
-    <div class="modal-overlay" id="playlist-modal"><div class="modal-content"><h4>Add to playlist</h4><div id="modal-playlist-list"></div><button class="close-modal-btn">Close</button></div></div>
+    
+    <!-- ছোট প্লেয়ার (আপনার পুরোনো ডিজাইনের উপর ভিত্তি করে) -->
+    <div class="small_music_player">
+    	<div class="s_player_img">
+    		<div class="playing_img">
+    			<img src="img/1.jpg" alt="album art">
+    		</div>
+    	   <div class="wave_animation"><li></li><li></li><li></li><li></li><li></li></div>
+	    </div>
+    	<div class="song_detail">
+    		<p id="song_name">গান নির্বাচন করুন</p>
+    		<p id="artist_name">N | Player</p>
+    	</div>
+    	<i class="fa fa-chevron-up" aria-hidden="true" id="up_player_new"></i>
+    </div>
+
+    <audio id="main_audio"></audio>
+
+    <!-- About মোডাল -->
     <div class="modal-overlay" id="about-modal">
         <div class="modal-content">
             <h4>About N-Player</h4>
-            <ul><li>On-demand song loading for data saving.</li><li>Full search functionality (song, artist, album).</li><li>Favorites list saved to your device.</li><li>Create and manage custom playlists.</li><li>Shuffle and three-mode repeat controls.</li><li>Modern, clean, and responsive UI.</li></ul>
+            <ul><li>Simple & Clean UI</li><li>Click on any song to play</li><li>Playing animation</li><li>Full music controls</li><li>Working time slider & Search</li><li>Favorites list support</li></ul>
             <button class="close-modal-btn">Close</button>
         </div>
     </div>
 </body>
-<script src="song_list.js"></script>
+<!-- সঠিক ক্রমে স্ক্রিপ্ট লোড করা হচ্ছে -->
+<script src="song_list.js"></script> 
 <script src="script.js"></script>
 </html>
